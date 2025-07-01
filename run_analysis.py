@@ -20,7 +20,7 @@ if __name__ == "__main__":
     sim_paths = [sim_paths_recsys_random, sim_paths_recsys_default]
     tags = ['RandomRecSys', 'DefaultRecSys']
 
-    #extract_all_toxicity()
+    extract_all_toxicity()
     
     for sim_path_recsys, tag in zip(sim_paths, tags):
         print(f"\n\n** Running analysis for {tag} simulations **")
