@@ -98,7 +98,7 @@ def plot_population_composition(sim_path_list, tag=None):
     df = pd.DataFrame(data)
 
     plt.figure(figsize=(10, 6))
-    sns.boxplot(data=df, x='coalition', y='count', palette="Set2", order=COALITIONS, showfliers=False)
+    sns.boxplot(data=df, x='coalition', y='count', hue='coalition', palette="Set2", order=COALITIONS, showfliers=False)
     plt.xlabel(None)
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)

@@ -1,7 +1,6 @@
 import os
 import sqlite3
 import pandas as pd
-from detoxify import Detoxify
 from tqdm import tqdm
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -10,6 +9,7 @@ import numpy as np
 from scipy.stats import gaussian_kde
 
 def extract_all_toxicity(simulations_root="simulations", output_root="output/toxicity"):
+    from detoxify import Detoxify
     model = Detoxify("original")
 
     for root, dirs, files in os.walk(simulations_root):
