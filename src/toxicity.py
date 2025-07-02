@@ -70,7 +70,7 @@ def extract_all_toxicity(simulations_root="simulations", output_root="output/tox
             df.to_csv(out_path, index=False)
 
 
-def plot_combined_toxicity_diff(sim_paths, real_world_path, tag=None):
+def plot_combined_toxicity_diff(sim_paths, real_world_path=None, tag=None):
     all_data_sim = []
 
     # Simulations
@@ -94,20 +94,23 @@ def plot_combined_toxicity_diff(sim_paths, real_world_path, tag=None):
     sim_means = sim_means.dropna(subset=["in", "out"])
 
     # Real world
-    real_df = pd.read_csv(real_world_path)
-    real_df["direction"] = real_df.apply(
-        lambda r: "in" if r["from_coalition"] == r["target_coalition"] else "out",
-        axis=1
-    )
-    real_df["toxicity_log"] = np.log1p(real_df["toxicity"])
-    real_means = real_df.groupby(["author_id", "direction"])["toxicity_log"].mean().unstack()
-    real_means["toxicity_diff"] = real_means["out"] - real_means["in"]
-    real_means = real_means.dropna(subset=["in", "out"])
+    if real_world_path is not None:
+        real_df = pd.read_csv(real_world_path)
+        real_df["direction"] = real_df.apply(
+            lambda r: "in" if r["from_coalition"] == r["target_coalition"] else "out",
+            axis=1
+        )
+        real_df["toxicity_log"] = np.log1p(real_df["toxicity"])
+        real_means = real_df.groupby(["author_id", "direction"])["toxicity_log"].mean().unstack()
+        real_means["toxicity_diff"] = real_means["out"] - real_means["in"]
+        real_means = real_means.dropna(subset=["in", "out"])
 
     # Plot
     plt.figure(figsize=(10, 5))
     sns.kdeplot(sim_means["toxicity_diff"], label="Simulations", color="steelblue", linewidth=2)
-    sns.kdeplot(real_means["toxicity_diff"], label="Real world", color="purple", linewidth=2)
+
+    if real_world_path is not None:
+        sns.kdeplot(real_means["toxicity_diff"], label="Real world", color="darkorange", linewidth=2)
 
     plt.axvline(0, linestyle="--", color="black", linewidth=1)
     plt.yticks([])
