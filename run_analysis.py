@@ -5,7 +5,7 @@ from src.graph import plot_final_graph, plot_population_composition
 from src.opinions import plot_op_score_by_coalition
 from src.misinformation import plot_shift_by_misinfo_level_runs, plot_shift_by_misinfo_level_coalitions
 from src.interactions import plot_in_group_ratio_by_recsys, plot_pos_neg_in_vs_out_boxplot, plot_interactions_per_user_boxplot
-from src.toxicity import extract_all_toxicity, plot_combined_toxicity_diff, plot_toxicity_post_comment
+from src.toxicity import extract_all_toxicity, plot_combined_toxicity_diff, plot_toxicity_in_out_ridge, plot_toxicity_post_comment, plot_toxicity_post_comment_ridge
 
 RECSYS_RANDOM_PATH = 'simulations/ContentRecSys'
 RECCSYS_DEFAULT_PATH = 'simulations/ReverseChronoFollowersPopularity'
@@ -56,10 +56,12 @@ if __name__ == "__main__":
     # Toxicity analysis
     print("\nPlotting toxicity analysis")
     plot_toxicity_post_comment(sim_paths_recsys_random + sim_paths_recsys_default)
+    plot_toxicity_post_comment_ridge(sim_paths_recsys_random + sim_paths_recsys_default)
 
     comment_files = "real_data/reply_edges_between_users_with_coalition.csv"
     print("\nPlotting toxicity differences in/out for real-world dataset")
     plot_combined_toxicity_diff(sim_paths_recsys_random + sim_paths_recsys_default, comment_files)
+    plot_toxicity_in_out_ridge(sim_paths_recsys_random + sim_paths_recsys_default, comment_files)
 
     # RecSys comparison
     print(f"\nPlotting in-group ratio by recommender system")
